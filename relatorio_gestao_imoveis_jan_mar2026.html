@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório Instagram — Gestão Imóveis | Jan–Mar 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f3;
+    --bg-tertiary: #eeede9;
+    --text-primary: #1a1a18;
+    --text-secondary: #6b6a65;
+    --text-tertiary: #9c9a92;
+    --border: rgba(0,0,0,0.10);
+    --border-md: rgba(0,0,0,0.16);
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --color-info-bg: #e6f1fb;
+    --color-info-text: #185fa5;
+    --color-success-bg: #eaf3de;
+    --color-success-text: #3b6d11;
+    --color-warn-bg: #faeeda;
+    --color-warn-text: #854f0b;
+    --color-purple-bg: #eeedfe;
+    --color-purple-text: #534ab7;
+    --color-green-bg: #e1f5ee;
+    --color-green-text: #0f6e56;
+    --orange: #E8722A;
+  }
+  body { font-family: Georgia, 'Times New Roman', serif; background: #f0ede6; min-height: 100vh; padding: 2rem 1rem; color: var(--text-primary); }
+  .page { max-width: 820px; margin: 0 auto; background: var(--bg-primary); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 32px rgba(0,0,0,0.10); }
+
+  /* HEADER */
+  .header { padding: 1.75rem 2rem 1.5rem; border-bottom: 0.5px solid var(--border); }
+  .header-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 0.5px solid var(--border); }
+  .agency-side { display: flex; align-items: center; gap: 10px; }
+  .logo-box { background: #000; border-radius: 8px; padding: 7px 11px; display: flex; align-items: center; justify-content: center; }
+  .agency-name-main { font-size: 13px; font-weight: 700; font-family: Georgia, serif; color: var(--text-primary); letter-spacing: 0.01em; }
+  .agency-name-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; font-family: Arial, sans-serif; }
+  .client-side { display: flex; align-items: center; gap: 12px; }
+  .client-logo-wrap { background: var(--orange); border-radius: 10px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .client-info { text-align: right; }
+  .client-label { font-size: 10px; color: var(--text-tertiary); margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.06em; font-family: Arial, sans-serif; }
+  .client-name { font-size: 17px; font-weight: 700; font-family: Georgia, serif; color: var(--text-primary); }
+  .period-badge { display: inline-block; margin-top: 5px; font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--color-info-bg); color: var(--color-info-text); font-weight: 600; font-family: Arial, sans-serif; }
+  .header-bottom { display: flex; align-items: center; gap: 10px; }
+  .ig-icon { width: 28px; height: 28px; border-radius: 7px; background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ig-icon svg { width: 15px; height: 15px; fill: white; }
+  .report-title { font-size: 15px; font-weight: 700; font-family: Georgia, serif; color: var(--text-primary); }
+  .report-sub { font-size: 12px; color: var(--text-secondary); font-family: Arial, sans-serif; }
+
+  /* TABS */
+  .tabs-wrap { padding: 1rem 2rem 0; background: var(--bg-primary); position: sticky; top: 0; z-index: 10; border-bottom: 0.5px solid var(--border); }
+  .tabs { display: flex; gap: 4px; background: var(--bg-secondary); padding: 4px; border-radius: 10px; margin-bottom: 0; }
+  .tab { flex: 1; padding: 9px 4px; font-size: 12px; text-align: center; border-radius: 7px; cursor: pointer; color: var(--text-secondary); border: none; background: transparent; font-family: Arial, sans-serif; transition: all 0.15s; }
+  .tab.active { background: var(--bg-primary); color: var(--text-primary); font-weight: 600; border: 0.5px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .tab:hover:not(.active) { color: var(--text-primary); background: rgba(255,255,255,0.5); }
+
+  /* CONTENT */
+  .content { padding: 1.75rem 2rem; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* METRICS */
+  .metrics-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-bottom: 1.75rem; }
+  @media(max-width:560px){ .metrics-grid { grid-template-columns: repeat(2,1fr); } }
+  .metric-card { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 14px 16px; }
+  .metric-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.04em; }
+  .metric-value { font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1; font-family: Georgia, serif; }
+  .metric-delta { font-size: 11px; margin-top: 5px; font-family: Arial, sans-serif; }
+  .up { color: #1a9e75; }
+  .down { color: #d84040; }
+  .neutral { color: var(--text-secondary); }
+
+  .section-title { font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.06em; }
+  .chart-wrap { position: relative; width: 100%; height: 220px; margin-bottom: 1.75rem; }
+  .chart-wrap-lg { position: relative; width: 100%; height: 280px; margin-bottom: 1.75rem; }
+  .chart-wrap-sm { position: relative; width: 100%; height: 175px; margin-bottom: 0; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 1.75rem; }
+  @media(max-width:540px){ .two-col { grid-template-columns: 1fr; } }
+
+  .card { background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; }
+  .card-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 12px; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .bar-label { font-size: 12px; color: var(--text-secondary); min-width: 70px; font-family: Arial, sans-serif; }
+  .bar-track { flex: 1; height: 6px; background: var(--bg-tertiary); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; }
+  .bar-val { font-size: 12px; color: var(--text-primary); min-width: 38px; text-align: right; font-family: Arial, sans-serif; font-weight: 600; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 10px; font-size: 12px; color: var(--text-secondary); font-family: Arial, sans-serif; }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; font-family: Arial, sans-serif; }
+  .summary-table th { text-align: left; padding: 9px 12px; font-size: 11px; font-weight: 600; color: var(--text-secondary); border-bottom: 0.5px solid var(--border); text-transform: uppercase; letter-spacing: 0.04em; }
+  .summary-table td { padding: 10px 12px; border-bottom: 0.5px solid var(--border); color: var(--text-primary); }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .highlight-row td { font-weight: 600; background: var(--bg-secondary); }
+
+  /* INSIGHT BOXES */
+  .insight-box { background: var(--bg-secondary); border-radius: var(--radius-md); padding: 13px 15px; margin-bottom: 10px; }
+  .insight-box p { font-size: 13px; color: var(--text-secondary); line-height: 1.65; font-family: Arial, sans-serif; }
+  .insight-box strong { color: var(--text-primary); font-weight: 600; }
+
+  .insight-highlight { background: var(--bg-primary); border-radius: var(--radius-md); padding: 15px 17px; margin-bottom: 12px; }
+  .insight-highlight p { font-size: 13px; color: var(--text-secondary); line-height: 1.65; font-family: Arial, sans-serif; }
+  .rec-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; font-family: Arial, sans-serif; }
+
+  .sub-card { background: var(--bg-secondary); border-radius: 6px; padding: 10px 13px; margin-bottom: 8px; }
+  .sub-card:last-child { margin-bottom: 0; }
+  .sub-card-title { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; font-family: Arial, sans-serif; }
+  .sub-card-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; font-family: Arial, sans-serif; }
+
+  .tag { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 4px; font-weight: 600; font-family: Arial, sans-serif; flex-shrink: 0; }
+  .tag-blue { background: var(--color-info-bg); color: var(--color-info-text); }
+  .tag-green { background: var(--color-success-bg); color: var(--color-success-text); }
+  .tag-warn { background: var(--color-warn-bg); color: var(--color-warn-text); }
+  .tag-orange { background: #fdeedd; color: #99420a; }
+
+  .rec-row { display: flex; align-items: flex-start; gap: 10px; padding: 11px 0; border-bottom: 0.5px solid var(--border); }
+  .rec-row:last-child { border-bottom: none; }
+  .rec-icon { font-size: 18px; line-height: 1; flex-shrink: 0; padding-top: 1px; }
+  .rec-body { flex: 1; }
+  .rec-label { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; font-family: Arial, sans-serif; }
+  .rec-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; font-family: Arial, sans-serif; }
+
+  .divider { height: 0.5px; background: var(--border); margin: 1.5rem 0; }
+
+  /* FOOTER */
+  .footer { padding: 1.25rem 2rem; border-top: 0.5px solid var(--border); background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+  .footer span { font-size: 11px; color: var(--text-tertiary); font-family: Arial, sans-serif; }
+  .footer strong { color: var(--text-secondary); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="agency-side">
+        <div class="logo-box">
+          <svg viewBox="0 0 80 50" width="38" height="24" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="40" font-family="Georgia,serif" font-size="42" fill="white" letter-spacing="-2">M</text>
+            <text x="22" y="46" font-family="Georgia,serif" font-size="34" fill="white" letter-spacing="-1">M</text>
+          </svg>
+        </div>
+        <div>
+          <div class="agency-name-main">Medeiros Marketing</div>
+          <div class="agency-name-sub">Agência de Mkt &amp; Comunicação</div>
+        </div>
+      </div>
+      <div class="client-side">
+        <div class="client-info">
+          <div class="client-label">Cliente</div>
+          <div class="client-name">Gestão Imóveis</div>
+          <span class="period-badge">Jan – Mar 2026</span>
+        </div>
+        <div class="client-logo-wrap">
+          <svg viewBox="0 0 100 100" width="52" height="52" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="100" fill="#E8722A"/>
+            <polygon points="50,42 30,62 70,62" fill="white"/>
+            <rect x="40" y="62" width="20" height="16" fill="#E8722A"/>
+            <rect x="44" y="66" width="12" height="12" fill="white"/>
+            <rect x="36" y="28" width="8" height="18" rx="4" fill="white"/>
+            <rect x="46" y="24" width="8" height="22" rx="4" fill="white"/>
+            <rect x="56" y="26" width="8" height="20" rx="4" fill="white"/>
+            <rect x="66" y="30" width="8" height="16" rx="4" fill="white"/>
+            <rect x="34" y="44" width="42" height="14" rx="6" fill="white"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="header-bottom">
+      <div class="ig-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </div>
+      <div>
+        <div class="report-title">Relatório de Performance — Redes Sociais Orgânico</div>
+        <div class="report-sub">Instagram · Janeiro a 23 de março de 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-wrap">
+    <div class="tabs" style="margin-bottom:1rem;">
+      <button class="tab active" onclick="showPanel('visao-geral',this)">Visão geral</button>
+      <button class="tab" onclick="showPanel('alcance',this)">Alcance</button>
+      <button class="tab" onclick="showPanel('engajamento',this)">Engajamento</button>
+      <button class="tab" onclick="showPanel('publico',this)">Público</button>
+      <button class="tab" onclick="showPanel('insights',this)">Insights</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- VISÃO GERAL -->
+    <div class="panel active" id="panel-visao-geral">
+      <div class="metrics-grid">
+        <div class="metric-card"><div class="metric-label">Seguidores</div><div class="metric-value">5.617</div><div class="metric-delta up">+30 em 3 meses</div></div>
+        <div class="metric-card"><div class="metric-label">Visualizações</div><div class="metric-value">40,4k</div><div class="metric-delta neutral">acumulado no período</div></div>
+        <div class="metric-card"><div class="metric-label">Interações</div><div class="metric-value">425</div><div class="metric-delta up">+147% jan → mar</div></div>
+        <div class="metric-card"><div class="metric-label">Contas alcançadas</div><div class="metric-value">15,5k</div><div class="metric-delta neutral">acumulado</div></div>
+      </div>
+      <div class="section-title">Evolução mensal</div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div>Visualizações</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Interações</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#D85A30"></div>Contas alcançadas</div>
+      </div>
+      <div class="chart-wrap-lg"><canvas id="overviewChart"></canvas></div>
+      <div class="section-title">Resumo por mês</div>
+      <div class="card">
+        <table class="summary-table">
+          <thead><tr><th>Mês</th><th>Visualizações</th><th>Interações</th><th>Contas alcançadas</th><th>Seguidores</th></tr></thead>
+          <tbody>
+            <tr><td>Janeiro</td><td>17.431</td><td>86</td><td>5.979</td><td>5.617 (+11)</td></tr>
+            <tr><td>Fevereiro</td><td>13.913</td><td>126</td><td>6.250</td><td>5.617 (+10)</td></tr>
+            <tr class="highlight-row"><td>Março (1–23)</td><td>9.057</td><td>213</td><td>3.294</td><td>5.617 (+9)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ALCANCE -->
+    <div class="panel" id="panel-alcance">
+      <div class="metrics-grid">
+        <div class="metric-card"><div class="metric-label">Visualizações jan</div><div class="metric-value">17.431</div><div class="metric-delta up">+43% vs dez</div></div>
+        <div class="metric-card"><div class="metric-label">Visualizações fev</div><div class="metric-value">13.913</div><div class="metric-delta down">-20% vs jan</div></div>
+        <div class="metric-card"><div class="metric-label">Visualizações mar*</div><div class="metric-value">9.057</div><div class="metric-delta neutral">*até dia 23</div></div>
+        <div class="metric-card"><div class="metric-label">Melhor reel (mar)</div><div class="metric-value">3,2k</div><div class="metric-delta up">views em 1 reel</div></div>
+      </div>
+      <div class="section-title">Distribuição por tipo de conteúdo</div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">Janeiro</div>
+          <div class="bar-row"><div class="bar-label">Posts</div><div class="bar-track"><div class="bar-fill" style="width:93.5%;background:#7F77DD"></div></div><div class="bar-val">93,5%</div></div>
+          <div class="bar-row"><div class="bar-label">Stories</div><div class="bar-track"><div class="bar-fill" style="width:5.8%;background:#AFA9EC"></div></div><div class="bar-val">5,8%</div></div>
+          <div class="bar-row"><div class="bar-label">Reels</div><div class="bar-track"><div class="bar-fill" style="width:0.6%;background:#CECBF6"></div></div><div class="bar-val">0,6%</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Fevereiro</div>
+          <div class="bar-row"><div class="bar-label">Posts</div><div class="bar-track"><div class="bar-fill" style="width:82.8%;background:#7F77DD"></div></div><div class="bar-val">82,8%</div></div>
+          <div class="bar-row"><div class="bar-label">Reels</div><div class="bar-track"><div class="bar-fill" style="width:13.2%;background:#AFA9EC"></div></div><div class="bar-val">13,2%</div></div>
+          <div class="bar-row"><div class="bar-label">Stories</div><div class="bar-track"><div class="bar-fill" style="width:4%;background:#CECBF6"></div></div><div class="bar-val">4,0%</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Março (1–23)</div>
+          <div class="bar-row"><div class="bar-label">Reels</div><div class="bar-track"><div class="bar-fill" style="width:50.7%;background:#1D9E75"></div></div><div class="bar-val">50,7%</div></div>
+          <div class="bar-row"><div class="bar-label">Posts</div><div class="bar-track"><div class="bar-fill" style="width:33.9%;background:#5DCAA5"></div></div><div class="bar-val">33,9%</div></div>
+          <div class="bar-row"><div class="bar-label">Stories</div><div class="bar-track"><div class="bar-fill" style="width:15.4%;background:#9FE1CB"></div></div><div class="bar-val">15,4%</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Seguidores vs não-seguidores</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;font-family:Arial,sans-serif;">Janeiro</div>
+          <div class="bar-row"><div class="bar-track" style="height:10px;border-radius:5px;overflow:hidden;display:flex;"><div style="width:34.5%;background:#7F77DD;"></div><div style="width:65.5%;background:#AFA9EC;"></div></div></div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-bottom:9px;font-family:Arial,sans-serif;">34,5% seg · 65,5% não-seg</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;font-family:Arial,sans-serif;">Fevereiro</div>
+          <div class="bar-row"><div class="bar-track" style="height:10px;border-radius:5px;overflow:hidden;display:flex;"><div style="width:33.1%;background:#7F77DD;"></div><div style="width:66.9%;background:#AFA9EC;"></div></div></div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-bottom:9px;font-family:Arial,sans-serif;">33,1% seg · 66,9% não-seg</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;font-family:Arial,sans-serif;">Março</div>
+          <div class="bar-row"><div class="bar-track" style="height:10px;border-radius:5px;overflow:hidden;display:flex;"><div style="width:52.2%;background:#1D9E75;"></div><div style="width:47.8%;background:#9FE1CB;"></div></div></div>
+          <div style="font-size:11px;color:var(--text-secondary);font-family:Arial,sans-serif;">52,2% seg · 47,8% não-seg</div>
+        </div>
+      </div>
+      <div class="section-title">Atividade do perfil</div>
+      <div class="metrics-grid">
+        <div class="metric-card"><div class="metric-label">Visitas ao perfil (jan)</div><div class="metric-value">248</div><div class="metric-delta up">+57% vs dez</div></div>
+        <div class="metric-card"><div class="metric-label">Links externos (jan)</div><div class="metric-value">42</div><div class="metric-delta up">+100% vs dez</div></div>
+        <div class="metric-card"><div class="metric-label">Visitas ao perfil (fev)</div><div class="metric-value">285</div><div class="metric-delta up">+14,9% vs jan</div></div>
+        <div class="metric-card"><div class="metric-label">Visitas perfil (mar*)</div><div class="metric-value">108</div><div class="metric-delta neutral">*até dia 23</div></div>
+      </div>
+    </div>
+
+    <!-- ENGAJAMENTO -->
+    <div class="panel" id="panel-engajamento">
+      <div class="metrics-grid">
+        <div class="metric-card"><div class="metric-label">Interações jan</div><div class="metric-value">86</div><div class="metric-delta neutral">14% anúncios</div></div>
+        <div class="metric-card"><div class="metric-label">Interações fev</div><div class="metric-value">126</div><div class="metric-delta up">+46,5% vs jan</div></div>
+        <div class="metric-card"><div class="metric-label">Interações mar*</div><div class="metric-value">213</div><div class="metric-delta up">+69% vs fev</div></div>
+        <div class="metric-card"><div class="metric-label">Total acumulado</div><div class="metric-value">425</div><div class="metric-delta up">+147% jan→mar</div></div>
+      </div>
+      <div class="section-title">Crescimento de interações mês a mês</div>
+      <div class="chart-wrap"><canvas id="engChart"></canvas></div>
+      <div class="section-title">Detalhamento por ação</div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">Janeiro — posts</div>
+          <div class="bar-row"><div class="bar-label">Curtidas</div><div class="bar-track"><div class="bar-fill" style="width:85%;background:#7F77DD"></div></div><div class="bar-val">52</div></div>
+          <div class="bar-row"><div class="bar-label">Compart.</div><div class="bar-track"><div class="bar-fill" style="width:13%;background:#AFA9EC"></div></div><div class="bar-val">8</div></div>
+          <div class="bar-row"><div class="bar-label">Comentários</div><div class="bar-track"><div class="bar-fill" style="width:2%;background:#CECBF6"></div></div><div class="bar-val">1</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Fevereiro — posts + reels</div>
+          <div class="bar-row"><div class="bar-label">Curtidas</div><div class="bar-track"><div class="bar-fill" style="width:90%;background:#7F77DD"></div></div><div class="bar-val">56</div></div>
+          <div class="bar-row"><div class="bar-label">Compart.</div><div class="bar-track"><div class="bar-fill" style="width:6%;background:#AFA9EC"></div></div><div class="bar-val">4</div></div>
+          <div class="bar-row"><div class="bar-label">Salvamentos</div><div class="bar-track"><div class="bar-fill" style="width:2%;background:#CECBF6"></div></div><div class="bar-val">1</div></div>
+          <div class="bar-row"><div class="bar-label">Comentários</div><div class="bar-track"><div class="bar-fill" style="width:2%;background:#EEEDFE"></div></div><div class="bar-val">1</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Março — reels (destaque)</div>
+          <div class="bar-row"><div class="bar-label">Curtidas</div><div class="bar-track"><div class="bar-fill" style="width:66%;background:#1D9E75"></div></div><div class="bar-val">90</div></div>
+          <div class="bar-row"><div class="bar-label">Comentários</div><div class="bar-track"><div class="bar-fill" style="width:19%;background:#5DCAA5"></div></div><div class="bar-val">26</div></div>
+          <div class="bar-row"><div class="bar-label">Salvamentos</div><div class="bar-track"><div class="bar-fill" style="width:9%;background:#9FE1CB"></div></div><div class="bar-val">12</div></div>
+          <div class="bar-row"><div class="bar-label">Compart.</div><div class="bar-track"><div class="bar-fill" style="width:6%;background:#E1F5EE"></div></div><div class="bar-val">8</div></div>
+          <div class="bar-row"><div class="bar-label">Reposts</div><div class="bar-track"><div class="bar-fill" style="width:2%;background:#9FE1CB"></div></div><div class="bar-val">2</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Mix de engajamento</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;font-family:Arial,sans-serif;">Janeiro</div>
+          <div class="bar-row"><div class="bar-label">Posts</div><div class="bar-track"><div class="bar-fill" style="width:77.8%;background:#7F77DD"></div></div><div class="bar-val">77,8%</div></div>
+          <div class="bar-row"><div class="bar-label">Stories</div><div class="bar-track"><div class="bar-fill" style="width:22.2%;background:#CECBF6"></div></div><div class="bar-val">22,2%</div></div>
+          <div style="font-size:12px;color:var(--text-secondary);margin:8px 0 6px;font-family:Arial,sans-serif;">Fevereiro</div>
+          <div class="bar-row"><div class="bar-label">Posts</div><div class="bar-track"><div class="bar-fill" style="width:53%;background:#7F77DD"></div></div><div class="bar-val">53,0%</div></div>
+          <div class="bar-row"><div class="bar-label">Reels</div><div class="bar-track"><div class="bar-fill" style="width:43.5%;background:#AFA9EC"></div></div><div class="bar-val">43,5%</div></div>
+          <div style="font-size:12px;color:var(--text-secondary);margin:8px 0 6px;font-family:Arial,sans-serif;">Março</div>
+          <div class="bar-row"><div class="bar-label">Reels</div><div class="bar-track"><div class="bar-fill" style="width:54%;background:#1D9E75"></div></div><div class="bar-val">54,0%</div></div>
+          <div class="bar-row"><div class="bar-label">Posts</div><div class="bar-track"><div class="bar-fill" style="width:25.4%;background:#5DCAA5"></div></div><div class="bar-val">25,4%</div></div>
+          <div class="bar-row"><div class="bar-label">Stories</div><div class="bar-track"><div class="bar-fill" style="width:20.6%;background:#9FE1CB"></div></div><div class="bar-val">20,6%</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PÚBLICO -->
+    <div class="panel" id="panel-publico">
+      <div class="two-col">
+        <div class="card"><div class="card-title">Gênero dos seguidores</div><div class="chart-wrap-sm"><canvas id="genderChart"></canvas></div></div>
+        <div class="card"><div class="card-title">Faixa etária</div><div class="chart-wrap-sm"><canvas id="ageChart"></canvas></div></div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">Principais cidades</div>
+          <div class="bar-row"><div class="bar-label">Bisqueque</div><div class="bar-track"><div class="bar-fill" style="width:91%;background:#7F77DD"></div></div><div class="bar-val">9,1%</div></div>
+          <div class="bar-row"><div class="bar-label">Bal. Camboriú</div><div class="bar-track"><div class="bar-fill" style="width:69%;background:#AFA9EC"></div></div><div class="bar-val">6,9%</div></div>
+          <div class="bar-row"><div class="bar-label">Erevan</div><div class="bar-track"><div class="bar-fill" style="width:53%;background:#CECBF6"></div></div><div class="bar-val">5,3%</div></div>
+          <div class="bar-row"><div class="bar-label">Camboriú</div><div class="bar-track"><div class="bar-fill" style="width:25%;background:#EEEDFE"></div></div><div class="bar-val">2,5%</div></div>
+          <div class="bar-row"><div class="bar-label">Itajaí</div><div class="bar-track"><div class="bar-fill" style="width:23%;background:#EEEDFE"></div></div><div class="bar-val">2,3%</div></div>
+        </div>
+        <div class="card"><div class="card-title">Horários mais ativos (domingo)</div><div class="chart-wrap-sm"><canvas id="hoursChart"></canvas></div></div>
+      </div>
+      <div class="card" style="margin-bottom:0;"><div class="card-title">Crescimento de seguidores</div><div class="chart-wrap-sm"><canvas id="followersChart"></canvas></div></div>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div class="panel" id="panel-insights">
+      <div class="section-title">Principais conquistas do período</div>
+      <div class="insight-box"><p>📈 <strong>Interações triplicaram em 3 meses:</strong> de 86 em janeiro para 213 em março (até dia 23), representando crescimento de +147%. O mês de março ainda não terminou e já supera os dois anteriores.</p></div>
+      <div class="insight-box"><p>🎬 <strong>Reels se tornaram o formato dominante:</strong> Em janeiro representavam apenas 0,6% das visualizações. Em março chegam a 50,7% — e lideram o engajamento com 54%. O reel do dia 4 de março atingiu 3,2 mil visualizações.</p></div>
+      <div class="insight-box"><p>👥 <strong>Alcance orgânico sólido:</strong> Em janeiro, 65,5% das visualizações vieram de não-seguidores, mostrando que a conta está expandindo sua presença além da base atual.</p></div>
+      <div class="insight-box"><p>🔗 <strong>Links externos dobraram em janeiro:</strong> 42 toques com +100% vs dezembro — sinal de intenção de contato do público.</p></div>
+
+      <div class="divider"></div>
+      <div class="section-title">Pontos de atenção</div>
+      <div class="insight-box"><p>⚠️ <strong>Queda de visualizações em fevereiro:</strong> de 17.431 para 13.913 (-20%). O crescimento de interações (+46,5%) indica melhora na qualidade, mas o alcance reduziu. Vale avaliar a frequência de publicações.</p></div>
+      <div class="insight-box"><p>⚠️ <strong>Crescimento de seguidores lento:</strong> +11 jan, +10 fev, +9 mar (parcial). O volume de novos seguidores é positivo, mas a taxa de saída precisa ser monitorada.</p></div>
+      <div class="insight-box"><p>⚠️ <strong>Atividade do perfil caiu em março:</strong> 118 interações vs 319 em fevereiro (-56,9%) — possivelmente relacionado ao período parcial.</p></div>
+
+      <div class="divider"></div>
+      <div class="section-title">Recomendações estratégicas</div>
+
+      <!-- REC 1: REELS -->
+      <div class="insight-highlight" style="border:1.5px solid #7F77DD;">
+        <div class="rec-title" style="color:#534AB7;">🎬 Intensificar a produção de Reels</div>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.65;font-family:Arial,sans-serif;">Os dados provam: Reels são o motor de crescimento da Gestão Imóveis. Em março, com foco no formato, as interações subiram +69% e um único reel gerou 3,2k views. A recomendação é aumentar a frequência para <strong>pelo menos 3 Reels por semana</strong>, priorizando conteúdo educativo (dicas de financiamento, erros na compra de imóveis, curiosidades do mercado) — exatamente o padrão dos vídeos que mais performaram.</p>
+      </div>
+
+      <!-- REC 2: LOFTS -->
+      <div class="insight-highlight" style="border:1.5px solid #E8722A;">
+        <div class="rec-title" style="color:#99420a;">🏙️ Posicionamento como especialistas em Lofts</div>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.65;font-family:Arial,sans-serif;margin-bottom:10px;">Para construir autoridade no segmento e atrair o público certo, recomendamos que a comunicação de vendas passe a destacar <strong>lofts como produto âncora da Gestão Imóveis</strong>. O objetivo é que, ao pensar em loft na região, o cliente pense automaticamente na marca. Sugestões de conteúdo:</p>
+        <div class="sub-card">
+          <div class="sub-card-title">Série de Reels educativos sobre lofts</div>
+          <div class="sub-card-desc">Vídeos como "O que é um loft?", "Loft vs. apartamento convencional", "Por que lofts valorizam mais?" — conteúdo que educa e posiciona a marca como referência no nicho.</div>
+        </div>
+        <div class="sub-card">
+          <div class="sub-card-title">Tours e apresentações de lofts em carteira</div>
+          <div class="sub-card-desc">Vídeos de apresentação dos imóveis disponíveis com foco em diferenciais do estilo de vida: pé-direito alto, espaço integrado, design moderno. Ideal para Stories e Reels.</div>
+        </div>
+        <div class="sub-card">
+          <div class="sub-card-title">Linha editorial "Especialistas em Lofts"</div>
+          <div class="sub-card-desc">Inserir o posicionamento nas legendas, bio do perfil e CTAs — reforçando que a Gestão Imóveis é a escolha certa para quem busca esse tipo de imóvel em Balneário Camboriú e região.</div>
+        </div>
+      </div>
+
+      <!-- REC 3: TRÁFEGO PAGO -->
+      <div class="insight-highlight" style="border:1.5px solid #1D9E75;">
+        <div class="rec-title" style="color:#0F6E56;">📣 Iniciar tráfego pago para acelerar o crescimento</div>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.65;font-family:Arial,sans-serif;margin-bottom:10px;">O crescimento orgânico está consolidado, mas lento (+30 seguidores em 3 meses). O tráfego pago é o próximo passo para escalar resultados. Sugerimos duas frentes no Meta Ads:</p>
+        <div class="sub-card">
+          <div class="sub-card-title">Campanha de alcance / engajamento</div>
+          <div class="sub-card-desc">Impulsionar os Reels com melhor performance orgânica — especialmente os de lofts — para ampliar o alcance e atrair novos seguidores qualificados (interesse em imóveis, faixa etária 25–54, região de Balneário Camboriú e Camboriú).</div>
+        </div>
+        <div class="sub-card">
+          <div class="sub-card-title">Campanha de geração de leads → WhatsApp</div>
+          <div class="sub-card-desc">Anúncios com CTA direto para o WhatsApp, capturando pessoas que já demonstraram interesse (visitaram o perfil, assistiram reels). O objetivo é converter esse tráfego em conversas com a equipe comercial.</div>
+        </div>
+      </div>
+
+      <!-- RESUMO DE AÇÕES -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="card-title">Resumo de ações prioritárias</div>
+        <div class="rec-row"><div class="rec-icon">🎬</div><div class="rec-body"><div class="rec-label">Manter e intensificar os Reels</div><div class="rec-desc">Meta: 3+ reels/semana com foco em conteúdo educativo para o público 25–54 interessado em imóveis.</div></div><span class="tag tag-green">Manter</span></div>
+        <div class="rec-row"><div class="rec-icon">🏙️</div><div class="rec-body"><div class="rec-label">Posicionamento em lofts</div><div class="rec-desc">Série de conteúdos educativos, tours de imóveis e linha editorial voltada para lofts — tornando a marca referência no segmento.</div></div><span class="tag tag-orange">Estratégico</span></div>
+        <div class="rec-row"><div class="rec-icon">💰</div><div class="rec-body"><div class="rec-label">Tráfego pago — impulsionar Reels</div><div class="rec-desc">Amplificar os melhores conteúdos orgânicos com verba paga para acelerar o crescimento da base.</div></div><span class="tag tag-blue">Ampliar</span></div>
+        <div class="rec-row"><div class="rec-icon">💬</div><div class="rec-body"><div class="rec-label">Campanha de leads → WhatsApp</div><div class="rec-desc">Criar fluxo pago para conversão de visitantes em leads qualificados diretamente no WhatsApp comercial.</div></div><span class="tag tag-blue">Novo</span></div>
+        <div class="rec-row"><div class="rec-icon">🔗</div><div class="rec-body"><div class="rec-label">CTAs para o link da bio</div><div class="rec-desc">Aproveitar o alto volume de não-seguidores para direcioná-los ao link da bio com oferta clara de contato.</div></div><span class="tag tag-blue">Ampliar</span></div>
+        <div class="rec-row"><div class="rec-icon">📊</div><div class="rec-body"><div class="rec-label">Monitorar retenção de seguidores</div><div class="rec-desc">Avaliar por que usuários estão deixando de seguir e ajustar a linha editorial para reter a base.</div></div><span class="tag tag-warn">Monitorar</span></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <span>Dados extraídos do Instagram Insights · Janeiro a 23 de março de 2026</span>
+    <span style="color:var(--border-md);">·</span>
+    <span>Relatório elaborado por <strong>Medeiros Marketing</strong> para <strong>Gestão Imóveis</strong></span>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+function showPanel(id, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  el.classList.add('active');
+  renderCharts();
+}
+let chartsRendered = false;
+function renderCharts() {
+  if (chartsRendered) return;
+  chartsRendered = true;
+  const gridColor = 'rgba(0,0,0,0.06)';
+  const textColor = '#6b6a65';
+  new Chart(document.getElementById('overviewChart'), {
+    type:'bar', data:{ labels:['Janeiro','Fevereiro','Março (1–23)'], datasets:[
+      {label:'Visualizações',data:[17431,13913,9057],backgroundColor:'#7F77DD',borderRadius:5,yAxisID:'y'},
+      {label:'Contas alcançadas',data:[5979,6250,3294],backgroundColor:'#D85A30',borderRadius:5,yAxisID:'y'},
+      {label:'Interações',data:[86,126,213],backgroundColor:'#1D9E75',borderRadius:5,yAxisID:'y2'}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
+      x:{ticks:{color:textColor,font:{size:12,family:'Arial,sans-serif'}},grid:{color:gridColor}},
+      y:{ticks:{color:textColor,font:{size:11}},grid:{color:gridColor},position:'left'},
+      y2:{ticks:{color:textColor,font:{size:11}},grid:{display:false},position:'right'}
+    }}
+  });
+  new Chart(document.getElementById('engChart'), {
+    type:'line', data:{ labels:['Janeiro','Fevereiro','Março (1–23)'], datasets:[{
+      label:'Interações', data:[86,126,213], borderColor:'#1D9E75', backgroundColor:'rgba(29,158,117,0.10)',
+      pointBackgroundColor:'#1D9E75', pointRadius:5, fill:true, tension:0.4
+    }]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
+      x:{ticks:{color:textColor,font:{size:12}},grid:{color:gridColor}},
+      y:{ticks:{color:textColor,font:{size:11}},grid:{color:gridColor},beginAtZero:true}
+    }}
+  });
+  new Chart(document.getElementById('genderChart'), {
+    type:'doughnut', data:{labels:['Mulheres 56,8%','Homens 43,2%'],datasets:[{data:[56.8,43.2],backgroundColor:['#7F77DD','#D85A30'],borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:textColor,font:{size:11},boxWidth:10,padding:10}}}}
+  });
+  new Chart(document.getElementById('ageChart'), {
+    type:'bar', data:{labels:['13–17','18–24','25–34','35–44','45–54','55–64','65+'],datasets:[{data:[0.2,9.6,33.1,33.0,16.0,5.5,2.6],backgroundColor:'#7F77DD',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{
+      x:{ticks:{color:textColor,font:{size:10},callback:v=>v+'%'},grid:{color:gridColor}},
+      y:{ticks:{color:textColor,font:{size:11}},grid:{display:false}}
+    }}
+  });
+  new Chart(document.getElementById('hoursChart'), {
+    type:'bar', data:{labels:['0h','3h','6h','9h','12h','15h','18h','21h'],datasets:[{data:[40,25,55,80,90,90,88,70],backgroundColor:'#1D9E75',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{
+      x:{ticks:{color:textColor,font:{size:11}},grid:{display:false}},y:{display:false}
+    }}
+  });
+  new Chart(document.getElementById('followersChart'), {
+    type:'bar', data:{labels:['Janeiro','Fevereiro','Março (1–23)'],datasets:[
+      {label:'Novos seguidores',data:[32,16,14],backgroundColor:'#1D9E75',borderRadius:4},
+      {label:'Deixaram de seguir',data:[-21,-6,-5],backgroundColor:'#D85A30',borderRadius:4}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:textColor,font:{size:11},boxWidth:10}}},scales:{
+      x:{ticks:{color:textColor,font:{size:12}},grid:{color:gridColor},stacked:true},
+      y:{ticks:{color:textColor,font:{size:11}},grid:{color:gridColor},stacked:true}
+    }}
+  });
+}
+window.addEventListener('load', renderCharts);
+</script>
+</body>
+</html>
